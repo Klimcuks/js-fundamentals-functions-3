@@ -5,8 +5,17 @@
 // "The cake is still baking!" if there are any remaining minutes left,
 // or "You didn't set a timer!" if no value is provided to the parameter
 
+function timerStatus(minLeft) {
+  if (minLeft === 0) {
+    return "Phil's cake is ready!"
+  } else if (minLeft > 0) {
+    return 'The cake is still baking!'
+  } else {
+    return "You didn't set a timer!"
+  }
+}
 
-
+timerStatus(10)
 // 2. To help Phil prepare ahead of time, create a function named estimatePrepTime
 // that accepts two parameters:
 // - an array of ingredients (e.g. ["sugar", "milk", "flour", "eggs"])
@@ -16,7 +25,16 @@
 // If no prep time per ingredient is provided, the function should assume each ingredient
 // takes 2 minutes to prepare
 
-
+function estimatePrepTime(ingredients, prepTimePerIngredient) {
+  let totalPrepTime = 0
+  // used Array.isArray to establish if a variable is an array (will return true if it is and false if it isn't)
+  if (Array.isArray(ingredients) && prepTimePerIngredient > 0) {
+    totalPrepTime = ingredients.length * prepTimePerIngredient
+  } else {
+    totalPrepTime = ingredients.length * 2
+  }
+  return totalPrepTime
+}
 
 // 3. Phil needs to know the quantity of milk and eggs to use! Create a function
 // named calculateQuantities which accepts two parameters:
@@ -26,7 +44,7 @@
 // The function should always return an object with two keys: sugar, eggs
 // The values of the keys should be the total amount of sugar and eggs needed for the cake.
 // If sugar or eggs are not present in the list of ingredients, the value for the key should be 0
-//
+
 // Example:
 // calculateQuantities(["sugar", "milk", "eggs"], 2)
 // returns: { sugar: 200, eggs: 4 }
@@ -34,7 +52,31 @@
 // calculateQuantities(["milk", "eggs"], 3)
 // returns: { sugar: 0, eggs: 6 }
 
+// create the function and parameters
+// chek is the array contains sugar
+// if it does, add 100 * number of layers to the sugar key
+// do the same for eggs
 
+function calculateQuantities(ingredients, numberOfLayers) {
+  // create an object with sugar and eggs keys, initialized values to 0
+  const recipe = {
+    sugar: 0,
+    eggs: 0
+  }
+  //     // check if the array contains sugar
+
+  if (ingredients.includes('sugar')) {
+    recipe.sugar = 100 * numberOfLayers
+  }
+  // check if the array contains eggs
+  if (ingredients.includes('eggs')) {
+    recipe.eggs = 2 * numberOfLayers
+  }
+  // return the object
+  return recipe
+}
+
+console.log(calculateQuantities(['eggs', 'milk', 'butter'], 2))
 
 // 4. Phil's cake is pretty small and only provides 1 portion. He wants to make a bigger one!
 // Create a function named improveRecipe that accepts two parameters:
@@ -49,13 +91,20 @@
 // improveRecipe({ eggs: 2, milk: 100, sugar: 200 }, 3)
 // returns: { eggs: 6, milk: 300, sugar: 600 }
 
+function improveRecipe(recipe, numberOfPortions) {
+  const keys = Object.keys(recipe)
 
+  keys.forEach(function (theKey) {
+    recipe[theKey] = recipe[theKey] * numberOfPortions
+  })
 
+  return recipe
+}
 
 // Don't change the code below this line
 module.exports = {
-    timerStatus,
-    estimatePrepTime,
-    calculateQuantities,
-    improveRecipe
+  timerStatus,
+  estimatePrepTime,
+  calculateQuantities,
+  improveRecipe
 }
